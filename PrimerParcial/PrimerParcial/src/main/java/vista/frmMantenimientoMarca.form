@@ -49,7 +49,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtContrasena" pref="263" max="32767" attributes="0"/>
+                          <Component id="txtEstatus" pref="263" max="32767" attributes="0"/>
                           <Component id="txtNombre" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -91,10 +91,10 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="label1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="294" pref="573" max="32767" attributes="0"/>
+                      <EmptySpace min="294" pref="596" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="jScrollPane1" pref="611" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="634" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -118,7 +118,7 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtContrasena" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtEstatus" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="label5" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -180,7 +180,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century Gothic" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Usuarios"/>
+        <Property name="text" type="java.lang.String" value="Marcas"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnModificar">
@@ -213,7 +213,6 @@
             </MatteColorBorder>
           </Border>
         </Property>
-        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnLimpiar">
@@ -231,7 +230,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tablaUsuarios">
+        <Component class="javax.swing.JTable" name="tablaMarcas">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Century Gothic" size="12" style="0"/>
@@ -293,7 +292,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="txtContrasena">
+    <Component class="javax.swing.JTextField" name="txtEstatus">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century Gothic" size="12" style="0"/>
@@ -305,15 +304,17 @@
             </MatteColorBorder>
           </Border>
         </Property>
-        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEstatusActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="label5">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Century Gothic" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Contrase&#xf1;a"/>
+        <Property name="text" type="java.lang.String" value="Estatus "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lb">

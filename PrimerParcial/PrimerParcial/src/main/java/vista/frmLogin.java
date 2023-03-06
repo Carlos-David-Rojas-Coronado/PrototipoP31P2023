@@ -5,7 +5,7 @@
  */
 package vista;
 
-import controlador.clsUsuario;
+import controlador.clsMarca;
 import java.awt.HeadlessException;
 
 import javax.swing.JOptionPane;
@@ -38,10 +38,10 @@ public class frmLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        txtMarca = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        txtContraseña = new javax.swing.JPasswordField();
+        txtEstatus = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,10 +52,10 @@ public class frmLogin extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña");
 
-        txtUsuario.setName("txtUsuario"); // NOI18N
-        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+        txtMarca.setName("txtMarca"); // NOI18N
+        txtMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuarioActionPerformed(evt);
+                txtMarcaActionPerformed(evt);
             }
         });
 
@@ -93,8 +93,8 @@ public class frmLogin extends javax.swing.JFrame {
                                 .addComponent(btnAceptar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2))
-                            .addComponent(txtUsuario)
-                            .addComponent(txtContraseña))))
+                            .addComponent(txtMarca)
+                            .addComponent(txtEstatus))))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -105,11 +105,11 @@ public class frmLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
@@ -120,24 +120,24 @@ public class frmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+    private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuarioActionPerformed
+    }//GEN-LAST:event_txtMarcaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
 
-        if (txtUsuario.getText().trim().isEmpty() || txtContraseña.getText().trim().isEmpty()) {
+        if (txtMarca.getText().trim().isEmpty() || txtEstatus.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "NO PUEDEN HABER CAMPOS VACIOS", "ERROR", JOptionPane.                  ERROR_MESSAGE);
         } else {
             try {
-                clsUsuario usuario = new clsUsuario();
+                clsMarca marca = new clsMarca();
           
-                usuario.setNombreUsuario(txtUsuario.getText().trim());
+                marca.setNombreMarca(txtMarca.getText().trim());
                 // Recuperación de información a través de otro objeto
-                usuario = usuario.getBuscarInformacionUsuarioPorNombre(usuario);
-                if (txtContraseña.getText().equals(usuario.getContrasenaUsuario()) && 
-                    txtUsuario.getText().equals(usuario.getNombreUsuario())) {
+                marca = marca.getBuscarInformacionMarcasPorNombre(marca);
+                if (txtEstatus.getText().equals(marca.getEstatusMarca()) && 
+                    txtMarca.getText().equals(marca.getNombreMarca())) {
                     JOptionPane.showMessageDialog(null, "Bienvenido al SISTEMA\n", 
                     "Mensaje de bienvenida", JOptionPane.INFORMATION_MESSAGE);
 
@@ -146,14 +146,14 @@ public class frmLogin extends javax.swing.JFrame {
                     this.dispose();
 
                 } else {
-                    JOptionPane.showMessageDialog(this, "ERROR AL ENCONTRAR USUARIO o CONTRASEÑA",                              "ERROR", JOptionPane.ERROR_MESSAGE);
-                    txtContraseña.setText("");
-                    txtUsuario.setText("");
+                    JOptionPane.showMessageDialog(this, "ERROR AL ENCONTRAR Marca o ESTATUS",                              "ERROR", JOptionPane.ERROR_MESSAGE);
+                    txtEstatus.setText("");
+                    txtMarca.setText("");
                 }
             } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(this, "ERROR AL ENCONTRAR USUARIO o CONTRASEÑA", "ERROR",                     JOptionPane.ERROR_MESSAGE);
-                txtContraseña.setText("");
-                txtUsuario.setText("");
+                txtEstatus.setText("");
+                txtMarca.setText("");
             }
         }
 
@@ -208,7 +208,7 @@ public class frmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField txtContraseña;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JPasswordField txtEstatus;
+    private javax.swing.JTextField txtMarca;
     // End of variables declaration//GEN-END:variables
 }

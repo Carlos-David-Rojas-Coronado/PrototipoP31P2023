@@ -1,11 +1,13 @@
-            /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package modelo;
 
-import controlador.clsJornadas;
+
+import controlador.clsMarca;
+import modelo.daoMarca;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,34 +16,34 @@ import java.util.List;
  *
  * @author visitante
  */
-public class daoJornadas {
+public class daoMarca {
 
-    private static final String SQL_SELECT = "SELECT codigo_jornada, nombre_jornada, estatus_jornada FROM jornadas";
-    private static final String SQL_INSERT = "INSERT INTO jornadas(codigo_jornada,nombre_jornada, estatus_jornada) VALUES(?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE jornadas SET nombre_jornada=?, estatus_jornada=? WHERE codigo_jornada = ?";
-    private static final String SQL_DELETE = "DELETE FROM jornadas WHERE codigo_jornada=?";
-    private static final String SQL_SELECT_NOMBRE = "SELECT codigo_jornada, nombre_jornada, estatus_jornada FROM jornadas WHERE nombre_jornada = ?";
-    private static final String SQL_SELECT_ID = "SELECT codigo_jornada, nombre_jornada, estatus_jornada FROM jornadas  WHERE codigo_jornada = ?";    
+    private static final String SQL_SELECT = "SELECT marcaid, marcanombre, marcaestatus FROM tbl_usuario";
+    private static final String SQL_INSERT = "INSERT INTO tbl_usuario(marcanombre, marcaestatus) VALUES(?, ?)";
+    private static final String SQL_UPDATE = "UPDATE tbl_usuario SET marcanombre=?, marcaestatus=? WHERE marcaid = ?";
+    private static final String SQL_DELETE = "DELETE FROM tbl_usuario WHERE marcaid=?";
+    private static final String SQL_SELECT_NOMBRE = "SELECT marcaid, marcanombre, marca FROM tbl_usuario WHERE marcanombre = ?";
+    private static final String SQL_SELECT_ID = "SELECT marcaid, marcanombre, marcaestatus FROM tbl_usuario WHERE marcaid = ?";    
 
-    public List<clsJornadas> consultaJornadas() {
+    public List<clsMarca> consultaMarcas() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        List<clsJornadas> jornadas = new ArrayList<>();
+        List<clsMarca> marcas = new ArrayList<>();
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                String codigo = rs.getString("codigo_jornada");
-                String nombre = rs.getString("nombre_jornada");
-                String estatus = rs.getString("estatus_jornada");
-                clsJornadas jornada = new clsJornadas();
-                jornada.setCodigo_jornada(codigo);
-                jornada.setNombre_jornada(nombre);
-                jornada.setEstatus_jornada(estatus);
-                jornadas.add(jornada);
+                int id = rs.getInt("marcaid");
+                String nombre = rs.getString("marcanombre");
+                String estatus = rs.getString("marcaestatus");
+                clsMarca marca = new clsMarca();
+                marcas.setIdMarca(id);
+                marcas.setNombreMarca(nombre);
+                marcas.setEstatusMarca(estatus);
+                marcas.add(marca);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -50,19 +52,18 @@ public class daoJornadas {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
-        return jornadas;
+        return marcas;
     }
 
-    public int ingresaJornadas(clsJornadas jornada) {
+    public int ingresaMarcas(clsMarca marca) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setString(1, jornada.getCodigo_jornada());
-            stmt.setString(2, jornada.getNombre_jornada());
-            stmt.setString(3, jornada.getEstatus_jornada());
+            stmt.setString(1, marca.getNombreMarca());
+            stmt.setString(2, marca.getEstatusMarca());
 
             System.out.println("ejecutando query:" + SQL_INSERT);
             rows = stmt.executeUpdate();
@@ -77,7 +78,7 @@ public class daoJornadas {
         return rows;
     }
 
-    public int actualizaJornadas(clsJornadas jornada) {
+    public int actualizaMarcas(clsMarca marca) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -85,9 +86,9 @@ public class daoJornadas {
             conn = Conexion.getConnection();
             System.out.println("ejecutando query: " + SQL_UPDATE);
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setString(1, jornada.getNombre_jornada());
-            stmt.setString(2,jornada.getEstatus_jornada());
-            stmt.setString(3,jornada.getCodigo_jornada());
+            stmt.setString(1, marca.getNombreMarca());
+            stmt.setString(2, marca.getEstatusMarca());
+            stmt.setInt(3, marca.getIdMarca());
 
             rows = stmt.executeUpdate();
             System.out.println("Registros actualizado:" + rows);
@@ -102,7 +103,7 @@ public class daoJornadas {
         return rows;
     }
 
-    public int borrarJornada(clsJornadas jornada) {
+    public int borrarMarcas(clsMarca marca) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -111,7 +112,7 @@ public class daoJornadas {
             conn = Conexion.getConnection();
             System.out.println("Ejecutando query:" + SQL_DELETE);
             stmt = conn.prepareStatement(SQL_DELETE);
-            stmt.setString(1, jornada.getCodigo_jornada());
+            stmt.setInt(1, marca.getIdMarca());
             rows = stmt.executeUpdate();
             System.out.println("Registros eliminados:" + rows);
         } catch (SQLException ex) {
@@ -124,27 +125,27 @@ public class daoJornadas {
         return rows;
     }
 
-    public clsJornadas consultaJornadasPorNombre(clsJornadas jornada) {
+    public clsMarca consultaMarcasPorNombre(clsMarca marca) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + jornada);
+            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + marca);
             stmt = conn.prepareStatement(SQL_SELECT_NOMBRE);
-            //stmt.setInt(1, usuario.getIdUsuario());            
-            stmt.setString(1, jornada.getNombre_jornada());
+            //stmt.setInt(1, marca.getIdMarca());            
+            stmt.setString(1, marca.getNombreMarca());
             rs = stmt.executeQuery();
             while (rs.next()) {
-                String codigo = rs.getString("codigo_jornada");
-                String nombre = rs.getString("nombre_jornada");
-                String estatus = rs.getString("estatus_jornada");
+                int id = rs.getInt("marcaid");
+                String nombre = rs.getString("marcanombre");
+                String estatus = rs.getString("marcaestatus");
 
-                //usuario = new clsUsuario();
-                jornada.setCodigo_jornada(codigo);
-                jornada.setNombre_jornada(nombre);
-                jornada.setEstatus_jornada(estatus);
-                System.out.println(" registro consultado: " + jornada);                
+                //marca = new clsMarca();
+                marca.setIdMarca(id);
+                marca.setNombreMarca(nombre);
+                marca.setEstatusMarca(estatus);
+                System.out.println(" registro consultado: " + marca);                
             }
             //System.out.println("Registros buscado:" + persona);
         } catch (SQLException ex) {
@@ -156,29 +157,29 @@ public class daoJornadas {
         }
 
         //return personas;  // Si se utiliza un ArrayList
-        return jornada;
+        return marca;
     }
-    public clsJornadas consultaJornadasporId(clsJornadas jornada) {
+    public clsMarca consultaMarcasPorId(clsMarca marca) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + jornada);
+            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + marca);
             stmt = conn.prepareStatement(SQL_SELECT_ID);
-            stmt.setString(1, jornada.getCodigo_jornada());            
-            //stmt.setString(1, usuario.getNombreUsuario());
+            stmt.setInt(1, marca.getIdMarca());            
+            //stmt.setString(1, marca.getNombreMarca());
             rs = stmt.executeQuery();
             while (rs.next()) {
-                String codigo = rs.getString("codigo_jornada");
-                String nombre = rs.getString("nombre_jornada");
-                String estatus = rs.getString("estatus_jornada");
+                int id = rs.getInt("marcaid");
+                String nombre = rs.getString("marcanombre");
+                String estatus = rs.getString("marcaestatus");
 
-                //usuario = new clsUsuario();
-                jornada.setCodigo_jornada(codigo);
-                jornada.setNombre_jornada(nombre);
-                jornada.setEstatus_jornada(estatus);
-                System.out.println(" registro consultado: " + jornada);                
+                //marca = new clsMarca();
+                marca.setIdMarca(id);
+                marca.setNombreMarca(nombre);
+                marca.setEstatusMarca(estatus);
+                System.out.println(" registro consultado: " + marca);                
             }
             //System.out.println("Registros buscado:" + persona);
         } catch (SQLException ex) {
@@ -190,7 +191,6 @@ public class daoJornadas {
         }
 
         //return personas;  // Si se utiliza un ArrayList
-        return jornada;
-    }
+        return marca;
+    }    
 }
-

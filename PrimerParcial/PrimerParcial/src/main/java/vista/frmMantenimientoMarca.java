@@ -6,7 +6,8 @@
 package vista;
 
 
-import controlador.clsJornadas;
+import controlador.clsMarca;
+import modelo.daoMarca;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author visitante
  */
-public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
+public class frmMantenimientoMarca extends javax.swing.JInternalFrame {
 
     public void llenadoDeCombos() {
         /*EmpleadoDAO empleadoDAO = new EmpleadoDAO();
@@ -31,28 +32,20 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
 
     public void llenadoDeTablas() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Codigo de la jornada");
-        modelo.addColumn("Nombre de la jornada");
-        modelo.addColumn("Estatus");
-
-        clsJornadas jornada = new clsJornadas();
+        modelo.addColumn("ID");
+        modelo.addColumn("nombre");
+        modelo.addColumn("estatus");
+        clsMarca marca = new clsMarca();
         //VendedorDAO vendedorDAO = new VendedorDAO();
-        List<  clsJornadas > listaJornadas= jornada.getListadoJornadas();
-        tablaJornadas.setModel(modelo);
+        List<clsMarca> listaMarcas = marca.getListadoMarcas();
+        tablaMarcas.setModel(modelo);
         String[] dato = new String[3];
-             for (int i = 0; i < listaJornadas.size(); i++) {
-            dato[0] = listaJornadas.get(i).getCodigo_jornada();
-            dato[1] = listaJornadas.get(i).getNombre_jornada();
-            dato[2] = listaJornadas.get(i).getEstatus_jornada();
+        for (int i = 0; i < listaMarcas.size(); i++) {
+            dato[0] = Integer.toString(listaMarcas.get(i).getIdMarca());
+            dato[1] = listaMarcas.get(i).getNombreMarca();
+            dato[2] = listaMarcas.get(i).getEstatusMarca();
             modelo.addRow(dato);
-
         }       
-    }
-
-    public frmMantenimientoJornadas() {
-        initComponents();
-        llenadoDeTablas();
-        llenadoDeCombos();
     }
 
     /**
@@ -76,15 +69,13 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
         txtNombre = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaJornadas = new javax.swing.JTable();
-        txtCodigo = new javax.swing.JTextField();
+        tablaMarcas = new javax.swing.JTable();
+        txtEstatus = new javax.swing.JTextField();
         label5 = new javax.swing.JLabel();
         lb = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         label4 = new javax.swing.JLabel();
         btnActualizar = new javax.swing.JButton();
-        label6 = new javax.swing.JLabel();
-        txtEstatus = new javax.swing.JTextField();
 
         lb2.setForeground(new java.awt.Color(204, 204, 204));
         lb2.setText(".");
@@ -93,7 +84,7 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Mantenimiento Jornadas");
+        setTitle("Mantenimiento Usuarios");
         setVisible(true);
 
         btnEliminar.setText("Eliminar");
@@ -118,7 +109,7 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
         });
 
         label1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label1.setText("Jornadas");
+        label1.setText("Marcas");
 
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -132,7 +123,6 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
 
         txtNombre.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtNombre.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        txtNombre.setOpaque(false);
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -141,8 +131,8 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
             }
         });
 
-        tablaJornadas.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        tablaJornadas.setModel(new javax.swing.table.DefaultTableModel(
+        tablaMarcas.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        tablaMarcas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -158,14 +148,18 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tablaJornadas);
+        jScrollPane1.setViewportView(tablaMarcas);
 
-        txtCodigo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtCodigo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        txtCodigo.setOpaque(false);
+        txtEstatus.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtEstatus.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtEstatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEstatusActionPerformed(evt);
+            }
+        });
 
         label5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label5.setText("Codigo");
+        label5.setText("Estatus ");
 
         lb.setForeground(new java.awt.Color(204, 204, 204));
         lb.setText(".");
@@ -187,19 +181,23 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
             }
         });
 
-        label6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label6.setText("Estatus");
-
-        txtEstatus.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtEstatus.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        txtEstatus.setOpaque(false);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label3)
+                            .addComponent(label5))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEstatus, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                            .addComponent(txtNombre))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
@@ -220,22 +218,7 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(14, 14, 14)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label3)
-                            .addComponent(label5)
-                            .addComponent(label6))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                                    .addComponent(txtNombre))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtEstatus, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))))
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -243,9 +226,9 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(label1)
-                        .addGap(294, 588, Short.MAX_VALUE))
+                        .addGap(294, 596, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -264,13 +247,9 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
                                     .addComponent(label3))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label5)))
                             .addComponent(lb))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label6)
-                            .addComponent(txtEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnRegistrar)
@@ -287,7 +266,7 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
                             .addComponent(label4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnActualizar)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
@@ -295,54 +274,49 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-      int registrosBorrados=0;
-        clsJornadas jornada = new clsJornadas();
-        jornada.setCodigo_jornada(txtbuscado.getText());
-        registrosBorrados=jornada.setBorrarJornada(jornada);
+        int registrosBorrados=0;
+        clsMarca marca = new clsMarca();
+        marca.setIdMarca(Integer.parseInt(txtbuscado.getText()));
+        registrosBorrados=marca.setBorrarMarcas(marca);
         JOptionPane.showMessageDialog(null, "Registro Borrado\n", 
                     "Información del Sistema", JOptionPane.INFORMATION_MESSAGE);
         llenadoDeTablas();
         limpiarTextos();
-
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        clsJornadas jornada = new clsJornadas();
-        jornada.setCodigo_jornada(txtCodigo.getText());
-        jornada.setNombre_jornada(txtNombre.getText());
-        jornada.setEstatus_jornada(txtEstatus.getText());
-        jornada.setIngresarJornada(jornada);
+        clsMarca marca = new clsMarca();
+        marca.setNombreMarca(txtNombre.getText());
+        marca.setEstatusMarca(txtEstatus.getText());
+        marca.setIngresarMarcas(marca);
         JOptionPane.showMessageDialog(null, "Registro Ingresado\n", 
                     "Información del Sistema", JOptionPane.INFORMATION_MESSAGE);
         llenadoDeTablas();
         limpiarTextos();
-
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        clsJornadas jornada  = new  clsJornadas();
-        //usuario.setNombreUsuario(txtbuscado.getText());        
-        jornada.setCodigo_jornada(txtbuscado.getText());        
-        jornada = jornada.getBuscarInformacionJornadasPorId(jornada);
-        System.out.println("Aplicacion retornado:" + jornada );        
-        txtNombre.setText(jornada.getNombre_jornada());
-        txtEstatus.setText(jornada.getEstatus_jornada());
-
+        clsMarca marca = new clsMarca();
+        //usuario.setNombreMarca(txtbuscado.getText());        
+        marca.setIdMarca(Integer.parseInt(txtbuscado.getText()));        
+        marca = marca.getBuscarInformacionMarcasPorId(marca);
+        System.out.println("Usuario retornado:" + marca);        
+        txtNombre.setText(marca.getNombreMarca());
+        txtEstatus.setText(marca.getEstatusMarca());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 //        // TODO add your handling code here:
-        clsJornadas jornada = new clsJornadas();
-        jornada.setCodigo_jornada((txtbuscado.getText()));
-        jornada.setNombre_jornada(txtNombre.getText());
-        jornada.setEstatus_jornada(txtEstatus.getText());
-        jornada.setModificarJornada(jornada);
+        clsMarca marca = new clsMarca();
+        marca.setIdMarca(Integer.parseInt(txtbuscado.getText()));
+        marca.setNombreMarca(txtNombre.getText());
+        marca.setEstatusMarca(txtEstatus.getText());
+        marca.setModificarMarca(marca);
         JOptionPane.showMessageDialog(null, "Registro Modificado\n", 
                     "Información del Sistema", JOptionPane.INFORMATION_MESSAGE);        
         llenadoDeTablas();
         limpiarTextos();
-
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -353,9 +327,8 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
     public void limpiarTextos()
     {
         txtNombre.setText("");
-        txtCodigo.setText("");
+        txtEstatus.setText("");
         txtbuscado.setText("");
-         txtEstatus.setText("");
     }
     public void habilitarBotones()
     {
@@ -392,6 +365,10 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
         llenadoDeTablas();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    private void txtEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEstatusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -406,12 +383,10 @@ public class frmMantenimientoJornadas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel label3;
     private javax.swing.JLabel label4;
     private javax.swing.JLabel label5;
-    private javax.swing.JLabel label6;
     private javax.swing.JLabel lb;
     private javax.swing.JLabel lb2;
     private javax.swing.JLabel lbusu;
-    private javax.swing.JTable tablaJornadas;
-    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTable tablaMarcas;
     private javax.swing.JTextField txtEstatus;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtbuscado;
